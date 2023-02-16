@@ -5,15 +5,24 @@ Begin VB.Form Main
    BackColor       =   &H80000005&
    Caption         =   "MBoardMouseClicker"
    ClientHeight    =   2385
-   ClientLeft      =   165
-   ClientTop       =   810
+   ClientLeft      =   225
+   ClientTop       =   570
    ClientWidth     =   4560
    LinkTopic       =   "Form1"
    ScaleHeight     =   2385
    ScaleWidth      =   4560
-   StartUpPosition =   3  '系統預設值
+   StartUpPosition =   2  '螢幕中央
+   Begin VB.CommandButton QuickKey 
+      Caption         =   "快速鍵(&K)"
+      Height          =   375
+      Left            =   600
+      TabIndex        =   11
+      Top             =   1920
+      Width           =   1095
+   End
    Begin VB.CommandButton StopBtn 
       Appearance      =   0  '平面
+      Cancel          =   -1  'True
       Caption         =   "退出(&S)"
       Height          =   375
       Left            =   3480
@@ -129,7 +138,13 @@ Begin VB.Form Main
       Caption         =   "功能(&T)"
       Begin VB.Menu Start 
          Caption         =   "連續點擊"
-         Shortcut        =   {F5}
+         Shortcut        =   {F6}
+      End
+      Begin VB.Menu NinSi87 
+         Caption         =   "-"
+      End
+      Begin VB.Menu AboutProg 
+         Caption         =   "關於(&A)"
       End
    End
 End
@@ -153,6 +168,10 @@ Const MOUSEEVENTF_ABSOLUTE = &H8000 '鼠標指定絕對座標
 Const MOUSEEVENTF_RIGHTDOWN = &H8 '右鍵按下
 Const MOUSEEVENTF_RIGHTUP = &H10 '右鍵彈起
 
+Private Sub AboutProg_Click()
+    frmAbout.Show
+End Sub
+
 Private Sub Form_Load()
     Main.Show
     If TopChk.Value Then
@@ -160,6 +179,10 @@ Private Sub Form_Load()
     Else
         IntR = SetWindowPos(Me.hwnd, -2, 0, 0, 0, 0, 3) '取消最上層顯示
     End If
+End Sub
+
+Private Sub QuickKey_Click()
+    QuickSet.Show
 End Sub
 
 Private Sub start_Click()
@@ -172,6 +195,34 @@ End Sub
 
 Private Sub StartBtn_Click()
     start_Click
+End Sub
+
+Private Sub Timer1_Timer()
+    Select Case QuickSet.Combo1.ListIndex
+        Case 0
+            KeyBoardKey = vbKeyF1
+        Case 1
+            KeyBoardKey = vbKeyF2
+        Case 2
+            KeyBoardKey = vbKeyF5
+        Case 3
+            KeyBoardKey = vbKeyF7
+        Case 4
+            KeyBoardKey = vbKeyF11
+        Case 5
+            KeyBoardKey = vbKeyF12
+        Case Else
+            KeyBoardKey = vbKeyF1
+    End Select
+    If GetAsyncKeyState(KeyBoardKey) Then
+        Label2.Caption = "87"
+    Else
+        Label2.Caption = "89787"
+    End If
+End Sub
+
+Private Sub StopBtn_Click()
+    End
 End Sub
 
 Private Sub TopChk_Click()

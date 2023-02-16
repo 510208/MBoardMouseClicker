@@ -10,7 +10,6 @@ Begin VB.Form RunOnTop
    LinkTopic       =   "Form1"
    ScaleHeight     =   1035
    ScaleWidth      =   4560
-   StartUpPosition =   3  '系統預設值
    Begin VB.CheckBox TopChk 
       Appearance      =   0  '平面
       BackColor       =   &H80000005&
@@ -86,12 +85,29 @@ Const MOUSEEVENTF_ABSOLUTE = &H8000 '鼠標指定絕對座標
 Const MOUSEEVENTF_RIGHTDOWN = &H8 '右鍵按下
 Const MOUSEEVENTF_RIGHTUP = &H10 '右鍵彈起
 Dim EndInfo As Boolean
+Dim KeyBoardKey
 
 Private Sub Form_Activate()
+    Select Case QuickSet.Combo1.ListIndex
+        Case 0
+            KeyBoardKey = vbKeyF1
+        Case 1
+            KeyBoardKey = vbKeyF2
+        Case 2
+            KeyBoardKey = vbKeyF5
+        Case 3
+            KeyBoardKey = vbKeyF7
+        Case 4
+            KeyBoardKey = vbKeyF11
+        Case 5
+            KeyBoardKey = vbKeyF12
+        Case Else
+            KeyBoardKey = vbKeyF1
+    End Select
     Dim LoopNum As Double
     LoopNum = 0
     Sleep 3000
-    Do Until GetAsyncKeyState(vbKeyF1)
+    Do Until GetAsyncKeyState(KeyBoardKey)
         Select Case Main.Combo1.ListIndex
             Case 0
                 mouse_event MOUSEEVENTF_LEFTDOWN Or MOUSEEVENTF_LEFTUP, 0, 0, 0, 0 '左鍵按下,彈起
@@ -100,7 +116,7 @@ Private Sub Form_Activate()
             Case 2
                 mouse_event MOUSEEVENTF_RIGHTDOWN Or MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0 '右鍵按下，彈起
             Case Else
-                MsgBox "請選擇要按下的按鈕！", vbExclamation
+                mouse_event MOUSEEVENTF_LEFTDOWN Or MOUSEEVENTF_LEFTUP, 0, 0, 0, 0 '左鍵按下,彈起
         End Select
         LoopNum = LoopNum + 1
         Label1.Caption = Str(LoopNum)
