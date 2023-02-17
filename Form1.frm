@@ -188,14 +188,18 @@ Private Sub Form_Load()
     Else
         IntR = SetWindowPos(Me.hwnd, -2, 0, 0, 0, 0, 3) '取消最上層顯示
     End If
-    ClickTest.Icon = Form.Icon
-    frmAbout.Icon = Form.Icon
-    quicktest.Icon = Form.Icon
-    RunOnTop.Icon = Form.Icon
+    'ClickTest.Icon = Form.Icon
+    'frmAbout.Icon = Form.Icon
+    'quicktest.Icon = Form.Icon
+    'RunOnTop.Icon = Form.Icon
 End Sub
 
 Private Sub QuickKey_Click()
     QuickSet.Show
+End Sub
+
+Private Sub RunClick_Click()
+    ClickTest.Show
 End Sub
 
 Private Sub start_Click()
