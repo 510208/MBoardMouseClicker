@@ -8,6 +8,7 @@ Begin VB.Form Main
    ClientLeft      =   225
    ClientTop       =   570
    ClientWidth     =   4560
+   Icon            =   "Form1.frx":0000
    LinkTopic       =   "Form1"
    ScaleHeight     =   2385
    ScaleWidth      =   4560
@@ -64,9 +65,9 @@ Begin VB.Form Main
       Begin VB.ComboBox Combo1 
          Appearance      =   0  '平面
          Height          =   300
-         ItemData        =   "Form1.frx":0000
+         ItemData        =   "Form1.frx":424A
          Left            =   1440
-         List            =   "Form1.frx":000D
+         List            =   "Form1.frx":4257
          TabIndex        =   10
          Text            =   "Combo1"
          Top             =   600
@@ -134,7 +135,7 @@ Begin VB.Form Main
       Top             =   120
       Width           =   1695
    End
-   Begin VB.Menu Tool 
+   Begin VB.Menu Mode 
       Caption         =   "功能(&T)"
       Begin VB.Menu Start 
          Caption         =   "連續點擊"
@@ -145,6 +146,14 @@ Begin VB.Form Main
       End
       Begin VB.Menu AboutProg 
          Caption         =   "關於(&A)"
+         Shortcut        =   {F1}
+      End
+   End
+   Begin VB.Menu Tool 
+      Caption         =   "工具(&T)"
+      Begin VB.Menu RunClick 
+         Caption         =   "連點測試功能(&G)"
+         Shortcut        =   ^{F1}
       End
    End
 End
@@ -179,6 +188,10 @@ Private Sub Form_Load()
     Else
         IntR = SetWindowPos(Me.hwnd, -2, 0, 0, 0, 0, 3) '取消最上層顯示
     End If
+    ClickTest.Icon = Form.Icon
+    frmAbout.Icon = Form.Icon
+    quicktest.Icon = Form.Icon
+    RunOnTop.Icon = Form.Icon
 End Sub
 
 Private Sub QuickKey_Click()
@@ -252,4 +265,3 @@ End Sub
 Private Sub BreakTxt_Change()
     BreakSpin.Value = Val(BreakTxt.Text)
 End Sub
-

@@ -22,15 +22,15 @@ Begin VB.Form frmAbout
       BackColor       =   &H80000005&
       ClipControls    =   0   'False
       ForeColor       =   &H80000008&
-      Height          =   510
+      Height          =   750
       Left            =   240
       Picture         =   "frmAbout.frx":0000
-      ScaleHeight     =   337.12
+      ScaleHeight     =   505.68
       ScaleMode       =   0  '使用者自訂
-      ScaleWidth      =   337.12
+      ScaleWidth      =   505.68
       TabIndex        =   1
       Top             =   240
-      Width           =   510
+      Width           =   750
    End
    Begin VB.CommandButton cmdOK 
       Appearance      =   0  '平面
