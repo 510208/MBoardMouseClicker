@@ -171,10 +171,14 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Private Declare Sub mouse_event Lib "user32" (ByVal dwFlags As Long, ByVal dx As Long, ByVal dy As Long, ByVal cButtons As Long, ByVal dwExtraInfo As Long) '聲明API函數
+Private Declare Function SetWindowRgn Lib "USER32" (ByVal hWnd As Long, ByVal hRgn As Long, ByVal bRedraw As Boolean) As Long
+Private Declare Function CreateRoundRectRgn Lib "gdi32" (ByVal X1 As Long, ByVal Y1 As Long, ByVal X2 As Long, ByVal Y2 As Long, ByVal X3 As Long, ByVal Y3 As Long) As Long
+Private Declare Function DeleteObject Lib "gdi32" (ByVal hObject As Long) As Long '圓角
+Dim outrgn As Long '接下??明一?全局?量,用??得?域句柄，如下：
+Private Declare Sub mouse_event Lib "USER32" (ByVal dwFlags As Long, ByVal dx As Long, ByVal dy As Long, ByVal cButtons As Long, ByVal dwExtraInfo As Long) '聲明API函數
 Private Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long) ' Sleep函數
-Private Declare Function GetAsyncKeyState Lib "user32" (ByVal vKey As Long) As Long ' 偵測按下鍵的值
-Private Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long '定位最上層API
+Private Declare Function GetAsyncKeyState Lib "USER32" (ByVal vKey As Long) As Long ' 偵測按下鍵的值
+Private Declare Function SetWindowPos Lib "USER32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long '定位最上層API
 '點擊程式 mouse_event MOUSEEVENTF_LEFTDOWN Or MOUSEEVENTF_LEFTUP, 0, 0, 0, 0
 '右鍵點擊程式 mouse_event MOUSEEVENTF_RIGHTDOWN Or MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0
 Const MOUSEEVENTF_LEFTDOWN = &H2 '左鍵按下
@@ -185,6 +189,14 @@ Const MOUSEEVENTF_MOVE = &H1 '移動鼠標
 Const MOUSEEVENTF_ABSOLUTE = &H8000 '鼠標指定絕對座標
 Const MOUSEEVENTF_RIGHTDOWN = &H8 '右鍵按下
 Const MOUSEEVENTF_RIGHTUP = &H10 '右鍵彈起
+
+Private Sub rgnform(ByVal frmbox As Form, ByVal fw As Long, ByVal fh As Long)
+Dim w As Long, h As Long
+w = frmbox.ScaleX(frmbox.Width, vbTwips, vbPixels)
+h = frmbox.ScaleY(frmbox.Height, vbTwips, vbPixels)
+outrgn = CreateRoundRectRgn(0, 0, w, h, fw, fh)
+Call SetWindowRgn(frmbox.hWnd, outrgn, True)
+End Sub
 
 Private Sub AboutProg_Click()
     frmAbout.Show
@@ -202,9 +214,9 @@ End Sub
 Private Sub Form_Load()
     Main.Show
     If TopChk.Value Then
-        IntR = SetWindowPos(Me.hwnd, -1, 0, 0, 0, 0, 3) '最上層顯示
+        IntR = SetWindowPos(Me.hWnd, -1, 0, 0, 0, 0, 3) '最上層顯示
     Else
-        IntR = SetWindowPos(Me.hwnd, -2, 0, 0, 0, 0, 3) '取消最上層顯示
+        IntR = SetWindowPos(Me.hWnd, -2, 0, 0, 0, 0, 3) '取消最上層顯示
     End If
     'ClickTest.Icon = Form.Icon
     'frmAbout.Icon = Form.Icon
@@ -262,9 +274,9 @@ End Sub
 
 Private Sub TopChk_Click()
     If TopChk.Value Then
-        IntR = SetWindowPos(Me.hwnd, -1, 0, 0, 0, 0, 3) '最上層顯示
+        IntR = SetWindowPos(Me.hWnd, -1, 0, 0, 0, 0, 3) '最上層顯示
     Else
-        IntR = SetWindowPos(Me.hwnd, -2, 0, 0, 0, 0, 3) '取消最上層顯示
+        IntR = SetWindowPos(Me.hWnd, -2, 0, 0, 0, 0, 3) '取消最上層顯示
     End If
 End Sub
 
