@@ -1,5 +1,4 @@
 VERSION 5.00
-Object = "{0D452EE1-E08F-101A-852E-02608C4D0BB4}#2.0#0"; "FM20.DLL"
 Begin VB.Form Main 
    Appearance      =   0  '平面
    BackColor       =   &H80000005&
@@ -17,7 +16,7 @@ Begin VB.Form Main
       Caption         =   "快速鍵(&K)"
       Height          =   375
       Left            =   600
-      TabIndex        =   11
+      TabIndex        =   4
       Top             =   1920
       Width           =   1095
    End
@@ -62,6 +61,24 @@ Begin VB.Form Main
       TabIndex        =   0
       Top             =   120
       Width           =   2535
+      Begin VB.CommandButton Command2 
+         Appearance      =   0  '平面
+         Caption         =   "-"
+         Height          =   255
+         Left            =   2160
+         TabIndex        =   12
+         Top             =   240
+         Width           =   255
+      End
+      Begin VB.CommandButton Command1 
+         Appearance      =   0  '平面
+         Caption         =   "+"
+         Height          =   255
+         Left            =   1920
+         TabIndex        =   11
+         Top             =   240
+         Width           =   255
+      End
       Begin VB.ComboBox Combo1 
          Appearance      =   0  '平面
          Height          =   300
@@ -103,14 +120,6 @@ Begin VB.Form Main
          TabIndex        =   9
          Top             =   600
          Width           =   1335
-      End
-      Begin MSForms.SpinButton BreakSpin 
-         Height          =   255
-         Left            =   1920
-         TabIndex        =   4
-         Top             =   240
-         Width           =   255
-         Size            =   "450;450"
       End
       Begin VB.Label BreakLbl 
          Appearance      =   0  '平面
@@ -179,6 +188,15 @@ Const MOUSEEVENTF_RIGHTUP = &H10 '右鍵彈起
 
 Private Sub AboutProg_Click()
     frmAbout.Show
+End Sub
+
+Private Sub Command1_Click()
+    BreakTxt.Text = Str(Val(BreakTxt) + 1)
+End Sub
+
+Private Sub Command2_Click()
+    BreakTxt.Text = Str(Val(BreakTxt) - 1)
+    BreakTxt = Trim(BreakTxt)
 End Sub
 
 Private Sub Form_Load()
@@ -260,12 +278,4 @@ Private Sub TurnTxt_Change()
     Exit Sub
 error9487:
     MsgBox "抱歉，您給定的參數值過大！", vbCritical, "錯誤！"
-End Sub
-
-Private Sub BreakSpin_Change()
-    BreakTxt = Str(BreakSpin.Value)
-End Sub
-
-Private Sub BreakTxt_Change()
-    BreakSpin.Value = Val(BreakTxt.Text)
 End Sub
